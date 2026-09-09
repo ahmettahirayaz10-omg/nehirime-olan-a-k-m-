@@ -1,0 +1,697 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nehir ♡ Biz — Anı Defterimiz</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,500&family=Manrope:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --deep-1:#07020f;
+    --deep-2:#170a2e;
+    --deep-3:#0c0420;
+    --neon:#a855f7;
+    --neon-light:#d9b8ff;
+    --blue:#4f8cff;
+    --blue-light:#8ec4ff;
+    --gold:#f2cf7e;
+    --gold-soft:#f7e2ac;
+    --glass-bg: rgba(255,255,255,0.045);
+    --glass-bg-strong: rgba(255,255,255,0.08);
+    --glass-border: rgba(216,180,254,0.22);
+    --glass-border-gold: rgba(242,207,126,0.35);
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    font-family:'Manrope', sans-serif;
+    background: radial-gradient(ellipse at 20% -10%, #241040 0%, transparent 55%),
+                radial-gradient(ellipse at 100% 0%, #12234a 0%, transparent 48%),
+                radial-gradient(ellipse at 0% 90%, #0e1f42 0%, transparent 50%),
+                linear-gradient(160deg, var(--deep-1) 0%, #12173a 40%, var(--deep-2) 65%, var(--deep-3) 100%);
+    background-attachment:fixed;
+    color:#e9e3f5;
+    min-height:100vh;
+    overflow-x:hidden;
+  }
+  .font-display{font-family:'Cormorant Garamond', serif;}
+
+  /* Starfield */
+  #starfield{position:fixed;inset:0;z-index:-2;overflow:hidden;pointer-events:none;}
+  .star{position:absolute;background:#fff;border-radius:50%;opacity:0.6;animation:twinkle linear infinite;}
+  @keyframes twinkle{
+    0%,100%{opacity:0.15; transform:scale(0.8);}
+    50%{opacity:0.9; transform:scale(1.15);}
+  }
+  .drift{position:fixed;inset:0;z-index:-1;pointer-events:none;overflow:hidden;}
+  .drift-light{position:absolute;border-radius:50%;filter:blur(50px);opacity:0.35;animation:driftMove linear infinite;}
+  @keyframes driftMove{
+    0%{transform:translate(0,0);}
+    50%{transform:translate(30px,-40px);}
+    100%{transform:translate(0,0);}
+  }
+
+  /* Glassmorphism */
+  .glass{
+    background:var(--glass-bg);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+    border:1px solid var(--glass-border);
+    box-shadow: 0 8px 32px rgba(10,2,25,0.45), inset 0 1px 0 rgba(255,255,255,0.06);
+  }
+  .glass-strong{
+    background:var(--glass-bg-strong);
+    backdrop-filter: blur(22px);
+    -webkit-backdrop-filter: blur(22px);
+    border:1px solid var(--glass-border);
+  }
+  .glass-gold{
+    border-color: var(--glass-border-gold);
+    box-shadow: 0 0 0 1px rgba(242,207,126,0.15), 0 8px 40px rgba(242,207,126,0.12), inset 0 1px 0 rgba(255,255,255,0.08);
+  }
+
+  /* Tabs */
+  .tab-btn{
+    position:relative;
+    color:#c9bfe0;
+    transition: color .35s ease;
+  }
+  .tab-btn.active{ color:#fff; }
+  .tab-underline{
+    position:absolute; left:10%; right:10%; bottom:-2px; height:2px;
+    background:linear-gradient(90deg, transparent, var(--blue-light), var(--neon-light), var(--gold), transparent);
+    transform:scaleX(0); transform-origin:center;
+    transition:transform .4s cubic-bezier(.2,.8,.2,1);
+    border-radius:2px;
+  }
+  .tab-btn.active .tab-underline{ transform:scaleX(1); }
+
+  .tab-panel{ display:none; }
+  .tab-panel.active{ display:block; animation:panelIn .5s ease; }
+  @keyframes panelIn{
+    from{opacity:0; transform:translateY(10px);}
+    to{opacity:1; transform:translateY(0);}
+  }
+
+  /* Timeline */
+  .timeline-line{
+    background:linear-gradient(180deg, transparent, var(--blue) 8%, var(--neon) 35%, var(--gold) 50%, var(--neon) 65%, var(--blue) 92%, transparent);
+    width:2px;
+  }
+  .timeline-dot{
+    box-shadow:0 0 0 4px rgba(79,140,255,0.18), 0 0 18px rgba(79,140,255,0.55);
+    background:var(--blue-light) !important;
+  }
+  .timeline-dot.gold{
+    box-shadow:0 0 0 4px rgba(242,207,126,0.18), 0 0 20px rgba(242,207,126,0.65);
+  }
+
+  .frame-gold{
+    padding:10px;
+    border-radius:1.1rem;
+    background:linear-gradient(145deg, rgba(242,207,126,0.5), rgba(168,85,247,0.25));
+    box-shadow: 0 0 40px rgba(242,207,126,0.25), 0 0 80px rgba(168,85,247,0.12);
+  }
+  .frame-gold img{border-radius:0.75rem; display:block;}
+
+  .frame-final{
+    padding:10px;
+    border-radius:1.1rem;
+    background:linear-gradient(145deg, rgba(168,85,247,0.55), rgba(242,207,126,0.4));
+    animation: breathe 4s ease-in-out infinite;
+  }
+  .frame-final img{border-radius:0.75rem; display:block;}
+  @keyframes breathe{
+    0%,100%{ box-shadow: 0 0 30px rgba(168,85,247,0.35), 0 0 60px rgba(242,207,126,0.15);}
+    50%{ box-shadow: 0 0 55px rgba(168,85,247,0.55), 0 0 100px rgba(242,207,126,0.3);}
+  }
+
+  /* Polaroid gallery */
+  .polaroid{
+    background:#f5f1ea;
+    padding:10px 10px 34px 10px;
+    border-radius:4px;
+    box-shadow:0 10px 25px rgba(0,0,0,0.45);
+    transition: transform .35s ease, box-shadow .35s ease;
+    cursor:pointer;
+  }
+  .polaroid img{ width:100%; aspect-ratio:1/1; object-fit:cover; display:block; border-radius:2px;}
+  .polaroid:hover{
+    transform: rotate(var(--tilt,-3deg)) translateY(-6px) scale(1.04);
+    box-shadow:0 20px 40px rgba(168,85,247,0.35);
+    z-index:5;
+  }
+  .polaroid span{
+    display:block; text-align:center; font-family:'Cormorant Garamond', serif; color:#2a2333; font-size:0.85rem; margin-top:8px;
+  }
+
+  /* Music button ring */
+  .music-btn{ position:relative; }
+  .music-ring{
+    position:absolute; inset:-6px; border-radius:9999px;
+    border:2px solid transparent;
+    border-top-color: var(--gold);
+    border-right-color: var(--blue-light);
+    border-bottom-color: var(--neon-light);
+    opacity:0;
+    transition:opacity .3s ease;
+  }
+  .music-ring.spin{ opacity:1; animation:spinRing 2.4s linear infinite; }
+  @keyframes spinRing{ to{ transform:rotate(360deg);} }
+
+  /* buttons */
+  .btn-glow{
+    background:linear-gradient(120deg, rgba(79,140,255,0.85), rgba(168,85,247,0.9), rgba(242,207,126,0.85));
+    color:#160828;
+    font-weight:600;
+    transition: transform .25s ease, box-shadow .25s ease;
+  }
+  .btn-glow:hover{ transform:translateY(-2px); box-shadow:0 10px 30px rgba(168,85,247,0.45); }
+
+  /* scrollbar */
+  ::-webkit-scrollbar{ width:8px; }
+  ::-webkit-scrollbar-track{ background:transparent; }
+  ::-webkit-scrollbar-thumb{ background: linear-gradient(var(--blue), var(--neon), var(--gold)); border-radius:4px; }
+
+  .fade-in-up{ opacity:0; transform:translateY(24px); transition:opacity .8s ease, transform .8s ease; }
+  .fade-in-up.visible{ opacity:1; transform:translateY(0); }
+
+  #lightbox, #letter-modal{
+    display:none;
+  }
+  #lightbox.open, #letter-modal.open{
+    display:flex;
+  }
+
+  .compliment-box{ min-height:90px; }
+
+  @media (prefers-reduced-motion: reduce){
+    *{ animation-duration:0.001ms !important; animation-iteration-count:1 !important; transition-duration:0.001ms !important; }
+  }
+</style>
+</head>
+<body class="relative">
+
+<audio id="bg-music" loop src="Eylem-Aktas-Hatirla-Sevgili-77.mp3"></audio>
+
+<div id="starfield"></div>
+<div class="drift">
+  <div class="drift-light" style="width:280px;height:280px;background:#a855f7;top:8%;left:12%;animation-duration:16s;"></div>
+  <div class="drift-light" style="width:260px;height:260px;background:#4f8cff;top:20%;left:70%;animation-duration:19s;"></div>
+  <div class="drift-light" style="width:220px;height:220px;background:#f2cf7e;top:55%;left:75%;animation-duration:20s;"></div>
+  <div class="drift-light" style="width:300px;height:300px;background:#2f6bff;top:82%;left:55%;animation-duration:22s;"></div>
+  <div class="drift-light" style="width:320px;height:320px;background:#7c3aed;top:75%;left:10%;animation-duration:24s;"></div>
+</div>
+
+<!-- Top Bar -->
+<header class="fixed top-0 left-0 right-0 z-40 px-4 sm:px-8 py-4 flex items-center justify-between">
+  <div class="font-display text-xl sm:text-2xl tracking-wide text-white/90">
+    Nehir <span class="text-[var(--gold)]">&</span> Biz
+  </div>
+
+  <!-- NehirFM -->
+  <div class="glass rounded-full flex items-center gap-3 pl-4 pr-2 py-2">
+    <span class="hidden sm:block text-xs tracking-[0.2em] text-[var(--neon-light)] font-medium">NEHİR FM</span>
+    <button id="music-toggle" class="music-btn w-10 h-10 rounded-full glass-strong flex items-center justify-center text-lg">
+      <div class="music-ring" id="music-ring"></div>
+      <span id="music-icon">▶</span>
+    </button>
+  </div>
+</header>
+
+<!-- Tabs Nav -->
+<nav class="fixed top-[68px] sm:top-20 left-0 right-0 z-30 flex justify-center px-4">
+  <div class="glass rounded-full px-2 py-1.5 flex gap-1 sm:gap-2 overflow-x-auto max-w-full">
+    <button class="tab-btn active px-4 sm:px-5 py-2 text-sm sm:text-base font-display text-lg" data-tab="hikaye">
+      Bizim Hikayemiz <span class="tab-underline"></span>
+    </button>
+    <button class="tab-btn px-4 sm:px-5 py-2 text-sm sm:text-base font-display text-lg" data-tab="galeri">
+      Anı Galerisi <span class="tab-underline"></span>
+    </button>
+    <button class="tab-btn px-4 sm:px-5 py-2 text-sm sm:text-base font-display text-lg" data-tab="oda">
+      Nehir'in Özel Odası <span class="tab-underline"></span>
+    </button>
+  </div>
+</nav>
+
+<main class="relative z-10 max-w-5xl mx-auto px-4 sm:px-8 pt-40 sm:pt-44 pb-24">
+
+  <!-- TAB 1: HİKAYEMİZ -->
+  <section id="tab-hikaye" class="tab-panel active">
+    <div class="text-center mb-16 fade-in-up">
+      <h1 class="font-display text-4xl sm:text-6xl text-white mb-3">Bizim Hikayemiz</h1>
+      <p class="text-[var(--neon-light)]/80 text-sm sm:text-base tracking-wide">İki kalbin aynı ritme başladığı yolculuk</p>
+    </div>
+
+    <div class="relative pl-10 sm:pl-16">
+      <div class="timeline-line absolute left-3 sm:left-6 top-0 bottom-0"></div>
+
+      <!-- 8 Ekim -->
+      <div class="relative mb-16 fade-in-up">
+        <div class="timeline-dot absolute -left-[31px] sm:-left-[46px] top-2 w-3.5 h-3.5 rounded-full bg-[var(--neon-light)]"></div>
+        <div class="glass rounded-2xl p-6 sm:p-8 max-w-xl">
+          <span class="text-xs tracking-[0.2em] text-[var(--gold)] font-semibold">8 EKİM</span>
+          <p class="font-display text-2xl sm:text-3xl text-white mt-2 leading-snug">Her şeyin başladığı gün... Flörtleşmeye ilk adım.</p>
+        </div>
+      </div>
+
+      <!-- 11-12 Ekim -->
+      <div class="relative mb-16 fade-in-up">
+        <div class="timeline-dot absolute -left-[31px] sm:-left-[46px] top-2 w-3.5 h-3.5 rounded-full bg-[var(--neon-light)]"></div>
+        <div class="glass rounded-2xl p-6 sm:p-8 max-w-xl">
+          <span class="text-xs tracking-[0.2em] text-[var(--gold)] font-semibold">11–12 EKİM</span>
+          <p class="font-display text-2xl sm:text-3xl text-white mt-2 leading-snug">Saatlerin su gibi aktığı, dünyayı unuttuğumuz o uzun hafta sonu sohbetleri.</p>
+        </div>
+      </div>
+
+      <!-- 25 Ekim - Özel -->
+      <div class="relative mb-16 fade-in-up">
+        <div class="timeline-dot gold absolute -left-[31px] sm:-left-[46px] top-2 w-3.5 h-3.5 rounded-full bg-[var(--gold)]"></div>
+        <div class="glass glass-gold rounded-2xl p-6 sm:p-8 max-w-2xl">
+          <span class="text-xs tracking-[0.2em] text-[var(--gold)] font-semibold">25 EKİM · İLK BULUŞMA</span>
+          <p class="font-display text-2xl sm:text-3xl text-white mt-2 mb-5 leading-snug">Hayatımın en güzel günü.</p>
+          <div class="frame-gold inline-block">
+            <img id="img-ilk-date" src="" alt="İlk buluşmamız" class="w-full sm:w-96">
+          </div>
+        </div>
+      </div>
+
+      <!-- 27 Ekim - Confetti -->
+      <div class="relative mb-16 fade-in-up" id="anniversary-item">
+        <div class="timeline-dot absolute -left-[31px] sm:-left-[46px] top-2 w-3.5 h-3.5 rounded-full bg-[var(--neon-light)]"></div>
+        <button id="anniversary-trigger" class="glass rounded-2xl p-6 sm:p-8 max-w-xl text-left w-full hover:glass-gold transition-all group">
+          <span class="text-xs tracking-[0.2em] text-[var(--gold)] font-semibold">27 EKİM · SEVGİLİ OLDUĞUMUZ GÜN</span>
+          <p class="font-display text-2xl sm:text-3xl text-white mt-2 leading-snug">Sonsuza kadar seninle olmak istiyorum.</p>
+          <span class="text-xs text-white/40 mt-3 block group-hover:text-white/70 transition-colors">dokun ✦</span>
+        </button>
+      </div>
+
+      <!-- Bugün / Son Anımız -->
+      <div class="relative fade-in-up">
+        <div class="timeline-dot gold absolute -left-[31px] sm:-left-[46px] top-2 w-3.5 h-3.5 rounded-full bg-[var(--gold)]"></div>
+        <div class="glass glass-gold rounded-2xl p-6 sm:p-8 max-w-2xl">
+          <span class="text-xs tracking-[0.2em] text-[var(--gold)] font-semibold">BUGÜN · SON ANIMIZ</span>
+          <p class="font-display text-2xl sm:text-3xl text-white mt-2 mb-5 leading-snug">Sonsuzluğa giden yolculuğumuzda şimdilik en son anımız...</p>
+          <div class="frame-final inline-block">
+            <img id="img-son-gun" src="" alt="Son anımız" class="w-full sm:w-96">
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TAB 2: GALERİ -->
+  <section id="tab-galeri" class="tab-panel">
+    <div class="text-center mb-14 fade-in-up">
+      <h1 class="font-display text-4xl sm:text-6xl text-white mb-3">Anı Galerisi</h1>
+      <p class="text-[var(--neon-light)]/80 text-sm sm:text-base tracking-wide">Biriktirdiğimiz her kare, bir gülüşün izi</p>
+    </div>
+    <div id="gallery-grid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6 sm:gap-8"></div>
+  </section>
+
+  <!-- TAB 3: NEHİR'İN ÖZEL ODASI -->
+  <section id="tab-oda" class="tab-panel">
+    <div class="text-center mb-14 fade-in-up">
+      <h1 class="font-display text-4xl sm:text-6xl text-white mb-3">Nehir'in Özel Odası</h1>
+      <p class="text-[var(--neon-light)]/80 text-sm sm:text-base tracking-wide">Sadece sana ait bir köşe</p>
+    </div>
+
+    <div class="grid gap-8 md:grid-cols-2">
+      <!-- Sayaç -->
+      <div class="glass rounded-2xl p-6 sm:p-8 fade-in-up md:col-span-2">
+        <h2 class="font-display text-2xl sm:text-3xl text-white mb-1">27 Ekim'den bu yana</h2>
+        <p class="text-xs text-white/40 mb-6">her saniye, sana biraz daha yaklaşıyor</p>
+        <div id="counter" class="grid grid-cols-5 gap-2 sm:gap-4 text-center">
+          <div class="glass-strong rounded-xl py-4"><div id="c-years" class="font-display text-3xl sm:text-4xl text-[var(--gold)]">0</div><div class="text-[10px] sm:text-xs text-white/50 mt-1 tracking-wide">YIL</div></div>
+          <div class="glass-strong rounded-xl py-4"><div id="c-days" class="font-display text-3xl sm:text-4xl text-[var(--gold)]">0</div><div class="text-[10px] sm:text-xs text-white/50 mt-1 tracking-wide">GÜN</div></div>
+          <div class="glass-strong rounded-xl py-4"><div id="c-hours" class="font-display text-3xl sm:text-4xl text-[var(--blue-light)]">0</div><div class="text-[10px] sm:text-xs text-white/50 mt-1 tracking-wide">SAAT</div></div>
+          <div class="glass-strong rounded-xl py-4"><div id="c-mins" class="font-display text-3xl sm:text-4xl text-[var(--blue-light)]">0</div><div class="text-[10px] sm:text-xs text-white/50 mt-1 tracking-wide">DAKİKA</div></div>
+          <div class="glass-strong rounded-xl py-4"><div id="c-secs" class="font-display text-3xl sm:text-4xl text-[var(--neon-light)]">0</div><div class="text-[10px] sm:text-xs text-white/50 mt-1 tracking-wide">SANİYE</div></div>
+        </div>
+      </div>
+
+      <!-- Gizli mektup -->
+      <div class="glass rounded-2xl p-6 sm:p-8 fade-in-up">
+        <h2 class="font-display text-2xl sm:text-3xl text-white mb-2">Gizli Mektup Kutusu</h2>
+        <p class="text-sm text-white/50 mb-5">Kilidi açmak için şifreyi biliyorsun...</p>
+        <div class="flex gap-2">
+          <input id="letter-pass" type="password" inputmode="numeric" maxlength="4" placeholder="••••"
+            class="flex-1 glass-strong rounded-xl px-4 py-3 text-center tracking-[0.4em] text-white placeholder-white/30 outline-none focus:ring-2 focus:ring-[var(--neon-light)]">
+          <button id="letter-submit" class="btn-glow rounded-xl px-5 py-3">Aç</button>
+        </div>
+        <p id="letter-error" class="text-xs text-red-300 mt-3 opacity-0 transition-opacity">Yanlış şifre, tekrar dene ✦</p>
+      </div>
+
+      <!-- Neden seni seviyorum -->
+      <div class="glass rounded-2xl p-6 sm:p-8 fade-in-up">
+        <h2 class="font-display text-2xl sm:text-3xl text-white mb-2">Seni Neden Çok Seviyorum?</h2>
+        <p class="text-sm text-white/50 mb-5">Butona her bastığında yeni bir sebep</p>
+        <button id="reason-btn" class="btn-glow rounded-xl px-6 py-3 w-full mb-4">Bana bir sebep söyle ✦</button>
+        <div class="compliment-box glass-strong rounded-xl p-5 flex items-center justify-center text-center">
+          <p id="reason-text" class="font-display text-xl sm:text-2xl text-[var(--gold-soft)] leading-snug">Öğrenmek için butona bas...</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- Lightbox -->
+<div id="lightbox" class="fixed inset-0 z-50 items-center justify-center bg-black/85 backdrop-blur-sm p-6">
+  <button id="lightbox-close" class="absolute top-6 right-6 text-white/70 hover:text-white text-3xl leading-none">✕</button>
+  <img id="lightbox-img" src="" alt="" class="max-w-full max-h-full rounded-lg shadow-2xl" style="box-shadow:0 0 60px rgba(168,85,247,0.4);">
+</div>
+
+<!-- Love Letter Modal -->
+<div id="letter-modal" class="fixed inset-0 z-50 items-center justify-center bg-black/85 backdrop-blur-sm p-4 sm:p-8">
+  <div class="glass glass-gold rounded-2xl max-w-2xl w-full max-h-[85vh] overflow-y-auto p-6 sm:p-10 relative">
+    <button id="letter-close" class="absolute top-4 right-5 text-white/60 hover:text-white text-2xl leading-none">✕</button>
+    <h2 class="font-display text-3xl sm:text-4xl text-[var(--gold)] mb-6">Sana bir mektup...</h2>
+    <div class="font-display text-lg sm:text-xl text-white/90 leading-relaxed space-y-4">
+      <p>Nehir'im,</p>
+      <p>Bu satırları yazarken bile içimde o ilk gün, 8 Ekim'de hissettiğim tedirginlik ve heyecan var. O gün daha bilmiyordum ki hayatıma böyle sessizce, ama bir o kadar da kalıcı şekilde gireceksin.</p>
+      <p>11 ve 12 Ekim'i hatırlıyorum; saatlerin nasıl geçtiğini anlamadığımız o konuşmaları. Telefonun ucunda, gecenin bir vaktinde, dünyada sadece ikimiz varmış gibi hissettiğim o anları. O sohbetler bana gösterdi ki seninle konuşmak, en sevdiğim şeyi yapmaktan bile daha güzelmiş.</p>
+      <p>25 Ekim'de karşımda otururken fark ettim; bazı günler hayatın geri kalanından ayrı, kendi ışığıyla parlıyor. O gün öyle bir gündü. Gülüşünü ilk kez o kadar yakından gördüğümde, aradığım şeyin tam da bu olduğunu anladım.</p>
+      <p>Ve 27 Ekim... "Sonsuza kadar seninle olmak istiyorum" dediğim an, aslında sadece o anı değil, seninle kurabileceğim her günü seçmiştim. O gün bir başlangıç değildi sadece, bir söz de oldu.</p>
+      <p>Bugün, bu satırları okurken, aramızda geçen her günü, her kahkahayı, her küçük tartışmayı ve her barışmayı düşünüyorum. Sen benim en güzel alışkanlığımsın. Sabah kalktığımda aklıma gelen ilk düşünce, gece uyumadan önce hayal ettiğim son an.</p>
+      <p>Bu site, biriktirdiğimiz onca anının küçük bir yansıması sadece. Gerçek hazine, seninle daha yazacağımız onca yeni sayfa. Bu yolculukta elini hiç bırakmak istemiyorum.</p>
+      <p>Seni bugün, dün olduğundan daha çok, yarın da bugün olduğundan daha çok seveceğim.</p>
+      <p class="pt-2">Sonsuza kadar senin,<br>Sensiz olmayan biri ♡</p>
+    </div>
+  </div>
+</div>
+
+<script>
+  /* ---------- Starfield ---------- */
+  const starfield = document.getElementById('starfield');
+  const STAR_COUNT = 130;
+  for(let i=0;i<STAR_COUNT;i++){
+    const s = document.createElement('div');
+    s.className = 'star';
+    const size = Math.random()*2 + 0.6;
+    s.style.width = size+'px';
+    s.style.height = size+'px';
+    s.style.top = Math.random()*100+'%';
+    s.style.left = Math.random()*100+'%';
+    s.style.animationDuration = (Math.random()*3+2.5)+'s';
+    s.style.animationDelay = (Math.random()*4)+'s';
+    starfield.appendChild(s);
+  }
+
+  /* ---------- Tabs ---------- */
+  const tabButtons = document.querySelectorAll('.tab-btn');
+  const tabPanels = document.querySelectorAll('.tab-panel');
+  tabButtons.forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      tabButtons.forEach(b=>b.classList.remove('active'));
+      tabPanels.forEach(p=>p.classList.remove('active'));
+      btn.classList.add('active');
+      document.getElementById('tab-'+btn.dataset.tab).classList.add('active');
+      window.scrollTo({top:0, behavior:'smooth'});
+      revealOnScroll();
+    });
+  });
+
+  /* ---------- Scroll reveal ---------- */
+  function revealOnScroll(){
+    document.querySelectorAll('.fade-in-up').forEach(el=>{
+      const rect = el.getBoundingClientRect();
+      if(rect.top < window.innerHeight - 60){
+        el.classList.add('visible');
+      }
+    });
+  }
+  window.addEventListener('scroll', revealOnScroll);
+  window.addEventListener('load', revealOnScroll);
+
+  /* ---------- Music Player ---------- */
+  const audio = document.getElementById('bg-music');
+  const musicToggle = document.getElementById('music-toggle');
+  const musicIcon = document.getElementById('music-icon');
+  const musicRing = document.getElementById('music-ring');
+  let playing = false;
+  musicToggle.addEventListener('click', ()=>{
+    if(!playing){
+      audio.play().catch(()=>{});
+      musicIcon.textContent = '❚❚';
+      musicRing.classList.add('spin');
+      playing = true;
+    } else {
+      audio.pause();
+      musicIcon.textContent = '▶';
+      musicRing.classList.remove('spin');
+      playing = false;
+    }
+  });
+
+  /* ---------- Confetti ---------- */
+  function fireConfetti(durationMs = 2200){
+    const canvas = document.createElement('canvas');
+    canvas.style.position = 'fixed';
+    canvas.style.inset = '0';
+    canvas.style.width = '100vw';
+    canvas.style.height = '100vh';
+    canvas.style.pointerEvents = 'none';
+    canvas.style.zIndex = '9999';
+    document.body.appendChild(canvas);
+    const ctx = canvas.getContext('2d');
+    const dpr = window.devicePixelRatio || 1;
+    function resize(){
+      canvas.width = window.innerWidth*dpr;
+      canvas.height = window.innerHeight*dpr;
+      ctx.setTransform(dpr,0,0,dpr,0,0);
+    }
+    resize();
+    window.addEventListener('resize', resize);
+
+    const colors = ['#a855f7','#d9b8ff','#4f8cff','#8ec4ff','#f2cf7e','#f7e2ac','#ffffff'];
+    const pieces = Array.from({length:140}).map(()=>({
+      x: Math.random()*window.innerWidth,
+      y: -20 - Math.random()*window.innerHeight*0.4,
+      w: Math.random()*8+4,
+      h: Math.random()*12+6,
+      color: colors[Math.floor(Math.random()*colors.length)],
+      speedY: Math.random()*3+2,
+      speedX: (Math.random()-0.5)*2,
+      rotation: Math.random()*360,
+      rotSpeed: (Math.random()-0.5)*10,
+    }));
+
+    const start = performance.now();
+    function frame(now){
+      const elapsed = now - start;
+      ctx.clearRect(0,0,window.innerWidth,window.innerHeight);
+      pieces.forEach(p=>{
+        p.y += p.speedY;
+        p.x += p.speedX;
+        p.rotation += p.rotSpeed;
+        ctx.save();
+        ctx.translate(p.x, p.y);
+        ctx.rotate(p.rotation*Math.PI/180);
+        ctx.fillStyle = p.color;
+        ctx.fillRect(-p.w/2, -p.h/2, p.w, p.h);
+        ctx.restore();
+      });
+      if(elapsed < durationMs){
+        requestAnimationFrame(frame);
+      } else {
+        canvas.remove();
+        window.removeEventListener('resize', resize);
+      }
+    }
+    requestAnimationFrame(frame);
+  }
+
+  /* ---------- 27 Ekim confetti (click + in-view once) ---------- */
+  const anniversaryTrigger = document.getElementById('anniversary-trigger');
+  anniversaryTrigger.addEventListener('click', ()=>fireConfetti());
+
+  let anniversaryFired = false;
+  const anniversaryObserver = new IntersectionObserver((entries)=>{
+    entries.forEach(entry=>{
+      if(entry.isIntersecting && !anniversaryFired){
+        anniversaryFired = true;
+        fireConfetti();
+      }
+    });
+  }, {threshold:0.6});
+  anniversaryObserver.observe(document.getElementById('anniversary-item'));
+
+  /* ---------- Gallery ---------- */
+  // Numaralar arasında boşluk olabilir (ör. 5 numara eksik) ve uzantı .jpg/.jpeg/.png olabilir.
+  // Bulunamayan fotoğraflar sayfada boşluk bırakmadan otomatik olarak gizlenir.
+  const galleryGrid = document.getElementById('gallery-grid');
+  const GALLERY_MAX = 70; // 58'den biraz fazla tarar, olmayanları zaten gizler
+  const EXTENSIONS = ['jpg', 'jpeg', 'png', 'JPG', 'PNG'];
+
+  function tryLoadImage(imgEl, basePath, extIndex, onFail){
+    if(extIndex >= EXTENSIONS.length){ onFail(); return; }
+    imgEl.onerror = ()=> tryLoadImage(imgEl, basePath, extIndex+1, onFail);
+    imgEl.src = `${basePath}.${EXTENSIONS[extIndex]}`;
+  }
+
+  for(let i=1; i<=GALLERY_MAX; i++){
+    const wrap = document.createElement('div');
+    wrap.className = 'polaroid';
+    wrap.style.setProperty('--tilt', (Math.random()*6-3).toFixed(2)+'deg');
+    wrap.style.display = 'none'; // yüklenene kadar gizli
+    const img = document.createElement('img');
+    img.alt = `Anı ${i}`;
+    img.loading = 'lazy';
+    const label = document.createElement('span');
+    label.textContent = `#${i}`;
+    wrap.appendChild(img);
+    wrap.appendChild(label);
+    galleryGrid.appendChild(wrap);
+
+    tryLoadImage(img, `images/${i}`, 0, ()=> wrap.remove());
+    img.onload = ()=>{ wrap.style.display = ''; };
+    wrap.addEventListener('click', ()=>openLightbox(img.src));
+  }
+
+  // Özel vitrin fotoğrafları: birkaç olası dosya adını dener (ilk_date / ilk-date / ilkdate vb.)
+  function tryLoadNamed(imgEl, basePaths, extIndex, pathIndex){
+    if(pathIndex >= basePaths.length) return;
+    if(extIndex >= EXTENSIONS.length){ tryLoadNamed(imgEl, basePaths, 0, pathIndex+1); return; }
+    imgEl.onerror = ()=> tryLoadNamed(imgEl, basePaths, extIndex+1, pathIndex);
+    imgEl.src = `images/${basePaths[pathIndex]}.${EXTENSIONS[extIndex]}`;
+  }
+  tryLoadNamed(document.getElementById('img-ilk-date'), ['ilk_date','ilk-date','ilkdate','ilk_buluşma','ilkbulusma'], 0, 0);
+  tryLoadNamed(document.getElementById('img-son-gun'), ['son_gun','son-gun','songun','son_an','sonan'], 0, 0);
+
+  const lightbox = document.getElementById('lightbox');
+  const lightboxImg = document.getElementById('lightbox-img');
+  function openLightbox(src){
+    lightboxImg.src = src;
+    lightbox.classList.add('open');
+  }
+  document.getElementById('lightbox-close').addEventListener('click', ()=>lightbox.classList.remove('open'));
+  lightbox.addEventListener('click', (e)=>{ if(e.target === lightbox) lightbox.classList.remove('open'); });
+
+  /* ---------- Countdown ---------- */
+  // 27 Ekim 2025 - sevgili olduğunuz gün
+  const startDate = new Date(2025, 9, 27, 0, 0, 0);
+  function updateCounter(){
+    const now = new Date();
+    let diffMs = now - startDate;
+    if(diffMs < 0) diffMs = 0;
+
+    const totalSeconds = Math.floor(diffMs/1000);
+    const years = now.getFullYear() - startDate.getFullYear() -
+      ((now.getMonth() < startDate.getMonth() || (now.getMonth()===startDate.getMonth() && now.getDate()<startDate.getDate())) ? 1 : 0);
+
+    const anniversaryThisYear = new Date(startDate);
+    anniversaryThisYear.setFullYear(startDate.getFullYear() + Math.max(years,0));
+    let remainderMs = now - anniversaryThisYear;
+    if(remainderMs < 0) remainderMs = diffMs;
+
+    const days = Math.floor(remainderMs/(1000*60*60*24));
+    const hours = Math.floor((remainderMs/(1000*60*60))%24);
+    const mins = Math.floor((remainderMs/(1000*60))%60);
+    const secs = Math.floor((remainderMs/1000)%60);
+
+    document.getElementById('c-years').textContent = Math.max(years,0);
+    document.getElementById('c-days').textContent = days;
+    document.getElementById('c-hours').textContent = String(hours).padStart(2,'0');
+    document.getElementById('c-mins').textContent = String(mins).padStart(2,'0');
+    document.getElementById('c-secs').textContent = String(secs).padStart(2,'0');
+  }
+  updateCounter();
+  setInterval(updateCounter, 1000);
+
+  /* ---------- Gizli mektup ---------- */
+  const letterModal = document.getElementById('letter-modal');
+  const letterPass = document.getElementById('letter-pass');
+  const letterSubmit = document.getElementById('letter-submit');
+  const letterError = document.getElementById('letter-error');
+  const letterClose = document.getElementById('letter-close');
+
+  function tryUnlock(){
+    if(letterPass.value === '2710'){
+      letterError.style.opacity = '0';
+      letterModal.classList.add('open');
+      fireConfetti();
+      letterPass.value = '';
+    } else {
+      letterError.style.opacity = '1';
+      letterPass.classList.add('animate-pulse');
+      setTimeout(()=>letterPass.classList.remove('animate-pulse'), 600);
+    }
+  }
+  letterSubmit.addEventListener('click', tryUnlock);
+  letterPass.addEventListener('keydown', (e)=>{ if(e.key === 'Enter') tryUnlock(); });
+  letterClose.addEventListener('click', ()=>letterModal.classList.remove('open'));
+  letterModal.addEventListener('click', (e)=>{ if(e.target === letterModal) letterModal.classList.remove('open'); });
+
+  /* ---------- Seni neden seviyorum ---------- */
+  const reasons = [
+    "Çünkü gülüşün, en kötü günümü bile güzelleştiriyor.",
+    "Çünkü sesini duyduğumda içim ısınıyor.",
+    "Çünkü bana sarıldığında dünya yavaşlıyor.",
+    "Çünkü gözlerinde hep bir hikaye var, ben o hikayenin parçası olmak istiyorum.",
+    "Çünkü küçük şeylerden bile mutlu olmayı biliyorsun.",
+    "Çünkü yanımdayken kendim olmaktan hiç korkmuyorum.",
+    "Çünkü sabahları ilk seni düşünerek uyanıyorum.",
+    "Çünkü uykulu halin bile beni büyülüyor.",
+    "Çünkü kahkaha atışın en sevdiğim melodi.",
+    "Çünkü bana inanıyorsun, ben inanmadığım zamanlarda bile.",
+    "Çünkü elini tutunca her şey daha hafif geliyor.",
+    "Çünkü sen benim en huzurlu limanımsın.",
+    "Çünkü seninle sessizlik bile anlamlı.",
+    "Çünkü her konuda fikrini merak ediyorum.",
+    "Çünkü bana en iyi halimi hatırlatıyorsun.",
+    "Çünkü kızdığında bile bir tuhaf tatlısın.",
+    "Çünkü hayallerimi büyütmemi sağlıyorsun.",
+    "Çünkü yanımdayken zaman su gibi akıyor.",
+    "Çünkü sen benim şansımın en güzel hali.",
+    "Çünkü beni olduğum gibi seviyorsun.",
+    "Çünkü her sabah 'günaydın' demek istediğim tek kişisin.",
+    "Çünkü seninle plan yapmak bile heyecan verici.",
+    "Çünkü inatçılığın bile beni gülümsetiyor.",
+    "Çünkü bir bakışınla her şeyi anlatabiliyorsun.",
+    "Çünkü sen varken yalnız hissetmiyorum.",
+    "Çünkü hayatıma renk kattın.",
+    "Çünkü kalbim seninle daha düzenli atıyor.",
+    "Çünkü seninle geleceği hayal etmek çok kolay.",
+    "Çünkü beni her halimle kucaklıyorsun.",
+    "Çünkü sen benim en sevdiğim alışkanlığımsın.",
+    "Çünkü küçük sürprizlerin beni hep şaşırtıyor.",
+    "Çünkü zor günlerimde bile yanımda duruyorsun.",
+    "Çünkü seninle her sohbet yeni bir keşif.",
+    "Çünkü gözlerinin içine baktığımda evimde hissediyorum.",
+    "Çünkü bana her gün yeni bir şey öğretiyorsun.",
+    "Çünkü seninle olan sessiz anlar bile özel.",
+    "Çünkü sabrın beni her seferinde şaşırtıyor.",
+    "Çünkü sen benim en güzel tesadüfümsün.",
+    "Çünkü seni düşünürken kendimi hep gülümserken buluyorum.",
+    "Çünkü bana güven vermeyi hiç bırakmadın.",
+    "Çünkü seninle geçen her an değerli.",
+    "Çünkü bana en samimi halini gösteriyorsun.",
+    "Çünkü sen benim favori hikayemsin.",
+    "Çünkü seninle her şey daha anlamlı.",
+    "Çünkü kalbin, dünyanın en güzel yerlerinden biri.",
+    "Çünkü seninle büyümek çok güzel.",
+    "Çünkü sen benim 'evet' dediğim tek sorusun.",
+    "Çünkü seni her geçen gün biraz daha çok seviyorum.",
+    "Çünkü sen, aradığım her şeyin cevabısın.",
+    "Çünkü sen, benim sonsuzluğumsun."
+  ];
+  const reasonBtn = document.getElementById('reason-btn');
+  const reasonText = document.getElementById('reason-text');
+  let lastIndex = -1;
+  reasonBtn.addEventListener('click', ()=>{
+    let idx;
+    do{ idx = Math.floor(Math.random()*reasons.length); } while(idx === lastIndex && reasons.length>1);
+    lastIndex = idx;
+    reasonText.style.opacity = 0;
+    setTimeout(()=>{
+      reasonText.textContent = reasons[idx];
+      reasonText.style.transition = 'opacity .4s ease';
+      reasonText.style.opacity = 1;
+    }, 150);
+  });
+</script>
+</body>
+</html>
